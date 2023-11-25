@@ -9,6 +9,7 @@ class UI:
         self.staff_logged_in = False
 
         self.r = tk.Tk()
+        self.r.title("Parking garage")
 
         self.dbref = db
         self.staffdbref = staffdb
