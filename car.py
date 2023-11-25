@@ -13,6 +13,7 @@ class Car:
         else:
             self.timer += time
 
+        self.invalid = False
         self.paid = True
 
     def tick(self):
