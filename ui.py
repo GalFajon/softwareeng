@@ -26,6 +26,8 @@ class UI:
 
         # user actions tabs
         self.tabs = ttk.Notebook(self.r_down)
+        self.tabs.bind("<<NotebookTabChanged>>", lambda _: self.update())
+
         self.tab_man = ttk.Frame(self.tabs)
         self.tab_u = ttk.Frame(self.tabs)
 
@@ -276,15 +278,17 @@ class UI:
 
     def update(self):
         s = []
+        c_tab = self.tabs.tab(self.tabs.select(),'text')
 
         for i in range(0,self.dbref.spaces):
             self.space_labels[i]['image'] = self.empty[i]
             self.space_labels[i]['text'] = i
 
         for license_plate in self.dbref.cars:
-            s.append(license_plate + " (time: " + str(self.dbref.cars[license_plate].timer) + ", paid: " + str(self.dbref.cars[license_plate].paid) +  ")")
+            if self.staff_logged_in and c_tab == 'Management staff':
+                s.append(license_plate + " (time: " + str(self.dbref.cars[license_plate].timer) + ", paid: " + str(self.dbref.cars[license_plate].paid) +  ")")
 
-            if self.dbref.cars[license_plate].invalid:
+            if self.dbref.cars[license_plate].invalid and self.staff_logged_in and c_tab == 'Management staff':
                 self.space_labels[self.dbref.cars[license_plate].space]['image'] = self.invalid_images[self.dbref.cars[license_plate].space]
             else:
                 self.space_labels[self.dbref.cars[license_plate].space]['image'] = self.images[self.dbref.cars[license_plate].space]

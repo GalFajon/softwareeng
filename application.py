@@ -16,5 +16,5 @@ sdb = staffdb.StaffDB()
 ui = ui.UI(db, sdb)
 ui.r.after(1000,update)
 
-ui.update()
 ui.initialize()
+ui.update()
