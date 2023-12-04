@@ -4,8 +4,10 @@ class Car:
         self.invalid = False
 
         self.license_plate = license_plate
-        self.timer = 10
         self.space = space
+
+        self.timer = 10
+        self.paid_for = 0
 
     def pay(self, time):
         if not self.paid:
@@ -15,6 +17,8 @@ class Car:
 
         self.invalid = False
         self.paid = True
+        self.paid_for = self.timer
+
 
     def tick(self):
         self.timer -= 1

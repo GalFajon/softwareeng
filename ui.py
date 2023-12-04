@@ -106,7 +106,7 @@ class UI:
     # Create subwindow
     def create_window(self):
         w = tk.Toplevel(self.r)
-        w.minsize(200,150)
+        w.minsize(200,250)
         w.transient(self.r)
 
         ws = self.r.winfo_screenwidth() # width of the screen
@@ -172,10 +172,20 @@ class UI:
         pay_entry = ttk.Entry(self.pay_window, textvariable=self.pay_val)
         pay_entry.pack(padx=5,pady=5)
 
+        self.pin_val = tk.StringVar()
+
+        label3 = ttk.Label(self.pay_window, text='Enter your credit card PIN:')
+        label3.pack(padx=5,pady=5)
+
+        pin_entry = ttk.Entry(self.pay_window, textvariable=self.pin_val)
+        pin_entry.pack(padx=5,pady=5)
+
         pay = tk.Button(self.pay_window, text="PAY", command=self.pay_car,width=10)
         pay.pack(padx=5,pady=5)
 
     def pay_car(self):
+        if len(self.pin_val.get()) != 4 or not self.pin_val.get().isnumeric():
+            tkinter.messagebox.showerror("Error.","Incorrect credit card PIN format.")
         if self.license_plate_val_pay.get() not in self.dbref.cars:
             tkinter.messagebox.showerror("Error.","License plate number must be associated with a car already parked in the garage.")
         elif self.pay_val.get() <= 0:
@@ -287,6 +297,8 @@ class UI:
         for license_plate in self.dbref.cars:
             if self.staff_logged_in and c_tab == 'Management staff':
                 s.append(license_plate + " (time: " + str(self.dbref.cars[license_plate].timer) + ", paid: " + str(self.dbref.cars[license_plate].paid) +  ")")
+            else:
+                s.append(license_plate + " (ticket paid for: " + str(self.dbref.cars[license_plate].paid_for) + ")")
 
             if self.dbref.cars[license_plate].invalid and self.staff_logged_in and c_tab == 'Management staff':
                 self.space_labels[self.dbref.cars[license_plate].space]['image'] = self.invalid_images[self.dbref.cars[license_plate].space]
