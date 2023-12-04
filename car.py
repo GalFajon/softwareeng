@@ -3,7 +3,7 @@ class Car:
         self.paid = False
         self.invalid = False
 
-        self.license_plate = license_plate
+        self.license_plate = license_plate.upper()
         self.space = space
 
         self.timer = 10
